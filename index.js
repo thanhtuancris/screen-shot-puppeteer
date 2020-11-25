@@ -17,7 +17,7 @@ let fbUrl = 'https://fb.com';
         // Tới đây chúng ta đã login thành công vào hệ thống.
         // Theo đường dẫn để có thể tìm ra những bài post có hastag là 10yearschallenge_gostack
         await page.goto('https://www.facebook.com/hashtag/SVMC_OPEN_DAY_2019_04')
-        await page.waitFor(2000)
+        // await page.waitFor(2000)
         await page.click('._6s5d') // Giả lập click chuột vào màn hình để tắt đi cái "notifications"
     }
     const clear = async () => {
@@ -37,26 +37,20 @@ let fbUrl = 'https://fb.com';
                 listData[window.i - 1].style.display = 'none'
             // Đưa bài post cần lấy vào vị trí thuận lợi nhất để có thể screenshot.
             await listData[window.i].scrollIntoView()
+            // Trả về vùng bao quanh
             const {
-                x,
-                y,
-                width,
-                height
-            } = await listData[window.i++].getBoundingClientRect()
+                x,y,width,height } = await listData[window.i++].getBoundingClientRect()
             return {
-                x,
-                y,
-                width,
-                height
+               x, y, width, height
             }
         })
-
+        // Thực hiện screenshot sau khi đã có đầy đủ thông tin.
         await page.waitFor(1000)
         await page.screenshot({
             path: `picture_${i++}.png`,
             clip: {
                 x: boundingBoxElement.x,
-                y: 73,
+                y: 73, // Mình cố tình ẩn những element trước đó đi nên y luôn là 73 - vị trí đắc địa cho screenshot
                 width: boundingBoxElement.width,
                 height: boundingBoxElement.height,
             },
